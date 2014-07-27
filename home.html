@@ -1,0 +1,53 @@
+<!DOCTYPE html5>
+<html>
+	<head>
+		<title>DoNotLinkFB</title>
+		<meta name="description" content="Link on Facebook without improving &quot;their&quot; search engine position." />
+		<meta property="og:title" content="DoNotLinkFB" />
+		<meta property="og:description" content="Link on Facebook without improving &quot;their&quot; search engine position." />
+		<meta property="og:image" content="logo.png" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<section>
+			<h1>DoNotLinkFB</h1>
+			<form method="post">
+				<h3>Bad URL</h3>
+				<p><input type="text" name="url" autocomplete="off" /></p>
+				<div>
+					<h3>Preview title</h3>
+					<p><input type="text" name="title" /></p>
+					<h3>Preview description</h3>
+					<p><input type="text" name="description" /></p>
+					<h3>Preview image</h3>
+					<p><input type="text" name="image" /></p>
+					<p id="images"></p>
+				</div>
+				<p class="submit">
+					<img src="spinner.gif" />
+					<input type="submit" value="Continue" disabled="disabled" />
+				</p>
+				<ul></ul>
+			</form>
+		</section>
+		<section id="link">
+			<h3>Good URL</h3>
+			<p><input type="text" name="link" /></p>
+		</section>
+		<section>
+			<h3>About</h3>
+			<p>
+				Inspired by <a href="http://donotlink.com/">donotlink.com</a>,
+				this website allows skeptics, bloggers, journalists, and friends on Facebook
+				to link to scams, pseudoscience, misinformation, etc.
+				without improving the search engine position of the site they are discussing.
+			</p>
+			<p>
+				It uses <a href="http://ogp.me/">Open Graph protocol</a> to accomplish this
+				without messing with the Facebook preview.
+			</p>
+		</section>
+	</body>
+</html>

@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^([a-z0-9]+)$ index.php?key=$1 [QSA]

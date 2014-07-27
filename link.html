@@ -1,0 +1,22 @@
+<!DOCTYPE html5>
+<html>
+	<head>
+		<title><?php echo htmlspecialchars($title); ?></title>
+		<meta name="robots" content="noindex, nofollow" />
+		<meta name="description" content="<?php echo htmlspecialchars($description); ?>" />
+		<meta property="og:title" content="<?php echo htmlspecialchars($title); ?>" />
+		<meta property="og:description" content="<?php echo htmlspecialchars($description); ?>" />
+		<meta property="og:image" content="<?php echo htmlspecialchars($image); ?>" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="base64.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<header>DoNotLinkFB.com</header>
+		<section id="loading" data-url="<?php echo base64_encode($url); ?>">
+			<h3>Oops</h3>
+			<p>Please enable JavaScript to use this page.</p>
+		</section>
+	</body>
+</html>
