@@ -104,7 +104,7 @@ $(document).ready(function()
 	if($('#loading').length)
 	{
 		var url = base64decode($('#loading').attr('data-url'));
-		$('#loading h3').text('Redirecting to');
+		$('#loading h3').text('Redirecting to...');
 		$('#loading p').text(url);
 		window.location.href = url;
 	}

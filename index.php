@@ -5,8 +5,6 @@ $db = new PDO('sqlite:database.db');
 if(file_exists('settings.php'))
 	include('settings.php');
 
-// if scheme missing, create tables
-
 function makeKey($length)
 {
 	$alphabet = implode(range('a', 'z')) . implode(range('0', '9'));
@@ -31,7 +29,7 @@ function makeAbsolute($url, $base)
 	if(!$url) return $base;                                   // Return base if no url
 	if(parse_url($url, PHP_URL_SCHEME) != '') return $url;    // Return if already absolute URL
 	if($url[0] == '#' || $url[0] == '?') return $base . $url; // Urls only containing query or anchor
-	extract(parse_url($base));                                // Parse base URL and convert to local variables: $scheme, $host, $path
+	extract(parse_url($base));                                // Parse base URL into $scheme, $host, and $path
 	if(!isset($path)) $path = '/';                            // If no path, use /
 	$path = preg_replace('#/[^/]*$#', '', $path);             // Remove non-directory element from path
 	if($url[0] == '/') $path = '';                            // Destroy path if relative url points to root
@@ -108,9 +106,10 @@ if($_POST['action'] == 'create')
 		$success = $query->execute($link);
 	}
 	while(!$success);
-	die(json_encode(array('link' => "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}{$link['key']}")));
+	die(json_encode(array(
+		'link' => "http://{$_SERVER['HTTP_HOST']}/{$link['key']}"
+	)));
 }
-
 
 if($key = (string) $_GET['key'])
 {

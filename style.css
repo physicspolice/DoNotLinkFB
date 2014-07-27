@@ -48,8 +48,11 @@ p#images img {
 }
 h1 {
 	text-align: center;
-	color: #3b5998;
 	font-size: 32px;
+}
+h1 a {
+	color: #3b5998;
+	text-decoration: none;
 }
 h3 {
 	padding-top: 10px;
