@@ -42,9 +42,10 @@ $(document).ready(function()
 				$('input[type="submit"]').val('Create Good Link');
 				$('input[name="title"]').val(response.title);
 				$('input[name="description"]').val(response.description);
-				$('#images').empty();
+				$('#images').empty().hide();
 				if(response.images.length)
 				{
+					$('#images').show();
 					$('input[name="image"]').val(response.images[0]);
 					for(var i in response.images)
 						$('#images').append($('<img />').attr('src', response.images[i]));

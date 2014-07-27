@@ -6,7 +6,9 @@
 		<meta name="description" content="<?php echo htmlspecialchars($description); ?>" />
 		<meta property="og:title" content="<?php echo htmlspecialchars($title); ?>" />
 		<meta property="og:description" content="<?php echo htmlspecialchars($description); ?>" />
-		<meta property="og:image" content="/images/<?php echo "$key.$type"; ?>" />
+		<?php if($type): ?>
+			<meta property="og:image" content="/images/<?php echo "$key.$type"; ?>" />
+		<?php endif; ?>
 		<link rel="shortcut icon" href="favicon.png" />
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<script type="text/javascript" src="jquery.js"></script>

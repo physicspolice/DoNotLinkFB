@@ -1,9 +1,10 @@
 <?php
 
-$db = new PDO('sqlite:database.db');
-
 if(file_exists('settings.php'))
 	include('settings.php');
+
+if(!$db)
+	$db = new PDO('sqlite:database.db');
 
 $result = $db->exec('CREATE TABLE IF NOT EXISTS `link` (
 	`key` varchar(255) NOT NULL,

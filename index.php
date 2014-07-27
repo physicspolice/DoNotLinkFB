@@ -1,9 +1,10 @@
 <?php
 
-$db = new PDO('sqlite:database.db');
-
 if(file_exists('settings.php'))
 	include('settings.php');
+
+if(!$db)
+	$db = new PDO('sqlite:database.db');
 
 function makeKey($length)
 {
@@ -88,14 +89,17 @@ if($_POST['action'] == 'create')
 	$errors = array();
 	if(!preg_match('/^https?:\/\//', $link['url']))
 		$errors[] = 'Invalid URL.';
-	if(!preg_match('/^https?:\/\//', $link['image']))
-		$errors[] = 'Invalid image URL.';
+	if(strlen($link['image']))
+	{
+		if(!preg_match('/^https?:\/\//', $link['image']))
+			$errors[] = 'Invalid image URL.';
+		elseif(!($image = @file_get_contents($link['image'])))
+			$errors[] = 'Could not download image.';
+	}
 	if(strlen($link['title']) > 255)
 		$errors[] = 'Title is too long.';
 	if(strlen($link['description']) > 255)
 		$errors[] = 'Description is too long.';
-	if(!($image = @file_get_contents($link['image'])))
-		$errors[] = 'Could not download image.';
 	if($errors)
 		die(json_encode(array('errors' => $errors)));
 	$query = $db->prepare('
@@ -108,25 +112,28 @@ if($_POST['action'] == 'create')
 		$success = $query->execute($link);
 	}
 	while(!$success);
-	file_put_contents("images/{$link['key']}", $image);
-	$type = exif_imagetype("images/{$link['key']}");
-	$allowed = array(
-		IMAGETYPE_GIF  => 'gif',
-		IMAGETYPE_JPEG => 'jpg',
-		IMAGETYPE_PNG  => 'png',
-		IMAGETYPE_BMP  => 'bmp',
-	);
-	if(isset($allowed[$type]))
+	if($image)
 	{
-		$query = $db->prepare('UPDATE `link` SET `type` = ? WHERE `key` = ?');
-		$query->execute(array($allowed[$type], $link['key']));
-		rename("images/{$link['key']}", "images/{$link['key']}.{$allowed[$type]}");
-	}
-	else
-	{
-		$query = $db->prepare('UPDATE `link` SET `image` = NULL WHERE `key` = ?');
-		$query->execute(array($link['key']));
-		unlink("images/{$link['key']}");
+		file_put_contents("images/{$link['key']}", $image);
+		$type = exif_imagetype("images/{$link['key']}");
+		$allowed = array(
+			IMAGETYPE_GIF  => 'gif',
+			IMAGETYPE_JPEG => 'jpg',
+			IMAGETYPE_PNG  => 'png',
+			IMAGETYPE_BMP  => 'bmp',
+		);
+		if(isset($allowed[$type]))
+		{
+			$query = $db->prepare('UPDATE `link` SET `type` = ? WHERE `key` = ?');
+			$query->execute(array($allowed[$type], $link['key']));
+			rename("images/{$link['key']}", "images/{$link['key']}.{$allowed[$type]}");
+		}
+		else
+		{
+			$query = $db->prepare('UPDATE `link` SET `image` = NULL WHERE `key` = ?');
+			$query->execute(array($link['key']));
+			unlink("images/{$link['key']}");
+		}
 	}
 	die(json_encode(array(
 		'link' => "http://{$_SERVER['HTTP_HOST']}/{$link['key']}"
