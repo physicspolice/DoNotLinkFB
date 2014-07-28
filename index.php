@@ -56,14 +56,14 @@ if($_POST['action'] == 'load')
 	@$doc->loadHTML($html);
 	if($title = $doc->getElementsByTagName('title')->item(0))
 		$site['title'] = $title->textContent;
+	$base = preg_replace('/[^\/]*$/', '', $url); 
 	foreach($doc->getElementsByTagName('meta') as $meta)
 	{
 		if($meta->getAttribute('name') == 'description')
 			$site['description'] = $meta->getAttribute('content');
 		if($meta->getAttribute('property') == 'og:image')
-			$site['images'][] = $meta->getAttribute('content');
+			$site['images'][] = makeAbsolute($meta->getAttribute('content'), $base);
 	}
-	$base = preg_replace('/[^\/]*$/', '', $url); 
 	if($tag = $doc->getElementsByTagName('base')->item(0))
 		$base = $tag->getAttirbute('href');
 	foreach($doc->getElementsByTagName('img') as $img)
